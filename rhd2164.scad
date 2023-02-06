@@ -1,6 +1,5 @@
 include <BOSL/constants.scad>
 use <BOSL/shapes.scad>
-//use <BOSL/sliders.scad>
 use <BOSL/metric_screws.scad>
 
 
@@ -10,15 +9,15 @@ module v_rail(l, v_ht, v_w, wall) {
     translate([-1, 0, 0]) color("gray", 1.) cuboid([wall, 2*v_w, l], align=V_UP+V_LEFT);
 }
 
+// headstage pcb
+//difference() {
+//    color("green") cuboid([14,1,22], align=V_UP);
+//    translate([-7+4, 0, 22-4]) color("red") ycyl(h=10, r=2.5/2, align=V_UP+V_LEFT, $fn=36);
+//}
+
 // post
 translate([0, 0, 22+30]) {
 color("gray", 1.) cyl(h=200, r=5, align=V_UP, $fn=18);
-}
-
-// headstage pcb
-difference() {
-    color("green") cuboid([14,1,22], align=V_UP);
-    translate([-7+4, 0, 22-4]) color("red") ycyl(h=10, r=2.5/2, align=V_UP+V_LEFT, $fn=36);
 }
 
 // v rails
@@ -33,7 +32,6 @@ difference() {
     }
         translate([-3-2.5/2, -2+1.5, 18+2.5/2]) translate([0, -0.5, 0]) rotate([0, 90, 90]) color("red", 1.) metric_nut(2.1, hole=false, align=V_BOTTOM);
 }
-//echo(get_metric_nut_thickness(2));
 
 // v rail connector
 translate([0, 0, 22+30]) color("gray", 1.) cuboid([14+2*0.5+2*1, 2, 3], align=V_UP);
