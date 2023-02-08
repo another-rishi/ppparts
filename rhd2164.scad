@@ -5,7 +5,7 @@ use <BOSL/metric_screws.scad>
 post_r = 5;
 post_l = 200;
 pcb_ht = 22;
-pcb_w = 13;
+pcb_w = 13.5;
 pcb_thick = 1;
 post_offset = 30;
 
