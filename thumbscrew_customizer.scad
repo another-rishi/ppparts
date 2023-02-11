@@ -21,7 +21,7 @@ bumps = 8;
 // = ratio of the diameter of the bump to the hex head size (2 = x2)
 bump_dia = 1;
 // = how tall the shaft is as a ratio of the hex head height
-shaft_h = 1.25;
+shaft_h = 0;
 //shaft_h=1;
 // = polygon resolution of the rendering (100 = high, 20 = low)
 $fn = 100;
