@@ -21,3 +21,5 @@ module ear_bar() {
         color("red") cuboid([l_bar+l_ear,d_bar,adhesion_offset], align=V_BOTTOM+V_RIGHT);
     }
 }
+
+// ear_bar();
