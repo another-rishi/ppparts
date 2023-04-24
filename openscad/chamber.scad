@@ -7,10 +7,13 @@ include <./ear-bar.scad>
 
 // parameters
 $fs=0.4/2;
+
+// TODO: increase wall thickness; 1st print loses rigidity with hot water in chamber
 nozzle = 0.4;
 d = 6*nozzle;
 eps = nozzle;
 
+// TODO: decrease height & increase width & length
 l = 120;
 w = 60;
 h = 30;
@@ -55,6 +58,7 @@ module chamber() {
     translate([5,w+d,h+d]) suction_tab();
 }
 
+// TODO: increase scaling of nut & bolt cutouts
 module ear_bar_post() {
     //left ear bar post
     difference() {
@@ -68,6 +72,7 @@ module ear_bar_post() {
     }
 }
 
+// TODO: increase scaling of nut cutouts; M3 bolts were fine on first print.
 module adjustable_post() {
     difference() {
         difference() {
@@ -89,6 +94,7 @@ module adjustable_post() {
     }
 }
 
+// TODO: increase bolt size from M3 to M6
 module mounting_tab() {
     difference() {
         cuboid([get_metric_socket_cap_diam(6)+eps,get_metric_socket_cap_diam(6)+eps,2], align=V_UP);
@@ -96,6 +102,7 @@ module mounting_tab() {
     }
 }
 
+// TODO: on first print, 1 tab was broken on side--probably due to retraction issues; increase wall thickness for a better print; or increase tab width.
 module suction_tab() {
     difference() {
         color("green") cuboid([10,d,10],align=V_UP+V_RIGHT+V_BACK);
