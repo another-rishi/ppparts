@@ -13,7 +13,7 @@ d = 12*nozzle;
 eps = nozzle;
 
 l = 150;
-w = 100;
+w = 75;
 h = 20;
 
 //adjustable post
@@ -67,6 +67,7 @@ module ear_bar_post() {
     }
 }
 
+// TODO column cutout is not same dimension as nut cutout
 module adjustable_post() {
     difference() {
         difference() {
