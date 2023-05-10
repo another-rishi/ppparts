@@ -39,6 +39,7 @@ module metric_nut_cut_out(size, depth, height, eps, fn) {
 
 // spherical filter supprot
 difference() {
+difference() {
 union() {
 difference() {
     arc();
@@ -62,12 +63,17 @@ f = 2.90; // groove width
 
 h_0i = h_0 / r;
 phi = [asin(h_0i[0]),asin(h_0i[1]),asin(h_0i[2])];
-echo(phi);
+// echo(phi);
 
-// !rotate_extrude(angle=360) {
-//     translate([h_0[0],0,0]) translate([-f*cos(phi[0])/2,0,f*sin(phi[0])]) rotate([0,phi[0],0]) rotate([90,0,0]) color("red") square([f, e]);
-// }
+x1 = [-f/2,e/2,0];
+x2 = [f/2,-e/2,0];
 
-rotate_extrude(angle=360, $fn=fn) {translate([h_0[0],0,0]) rotate([0,phi[0],0]) #square([f, e]);}
-// echo(h_o);
-// echo(get_metric_nut_thickness(size=6)+2);
+rx1 = [x1[0]*cos(-phi[0])-x1[1]*sin(-phi[0]), x1[0]*sin(-phi[0])+x1[1]*cos(-phi[0]), 0];
+rx2 = [x2[0]*cos(-phi[0])-x2[1]*sin(-phi[0]), x2[0]*sin(-phi[0])+x2[1]*cos(-phi[0]), 0];
+
+echo(rx1);
+echo(rx2);
+
+#translate([0,0,sqrt(r^2-(rx2[0]+20)^2)]) color("red") tube(h=rx1[1]*2, ir1=rx1[0]+20, or2=rx2[0]+20, wall=e, $fn=fn);
+echo(sqrt(r^2-(rx2[0]+20)^2));
+}
