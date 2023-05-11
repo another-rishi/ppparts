@@ -3,8 +3,10 @@ use <BOSL/shapes.scad>
 
 // parameters
 $fs=0.4/2;
+
 nozzle = 0.4;
-d = 6*nozzle;
+d = 12*nozzle;
+eps = nozzle;
 
 l = 10;
 w = 10;
