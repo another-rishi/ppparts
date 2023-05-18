@@ -2,7 +2,7 @@ use <BOSL/shapes.scad>
 use <BOSL/metric_screws.scad>
 use <BOSL/transforms.scad>
 include <BOSL/constants.scad>
-use <filter-holder.scad>
+use <./../utils.scad>
 
 // params
 layer_h = 0.1;
@@ -15,14 +15,6 @@ r = 25/2;
 d = nozzle*6;
 e = 1.51; // groove height
 f = 2.90; // groove width
-
-module metric_nut_cut_out(size, depth, height, eps, fn) {
-    translate([(1.155*get_metric_nut_size(size=size)*(1+eps))/2,0,0]) {
-        scale(1+eps) metric_nut(size=size, hole=false);
-        cuboid([depth, get_metric_nut_size(size=size)*(1+eps), get_metric_nut_thickness(size=size)*(1+eps)], align=V_RIGHT+V_UP);
-        cyl(r=(size/2)*(1+eps), h=height, orient=ORIENT_Z,  $fn=fn);
-    }
-}
 
 module inlet() {
     difference() {
