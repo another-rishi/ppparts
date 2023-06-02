@@ -9,6 +9,7 @@ include <./ear-bar.scad>
 $fs=0.4/2;
 
 nozzle = 0.4;
+big = 20*nozzle;
 d = 12*nozzle;
 eps = nozzle;
 
@@ -28,6 +29,10 @@ bh_h = 30;
 
 bh_w = ceil(get_metric_nut_thickness(3))+4*6*nozzle+post_w;
 bh_l = ceil(get_metric_nut_size(3))+4*6*nozzle;
+echo(ceil(get_metric_nut_size(3))+4*6*nozzle);
+
+post_mount_l = 20;
+post_l = 15;
 
 m3_c2c = 6.35;
 
@@ -38,13 +43,13 @@ module chamber() {
         // holes for cannula & grounding wire
         place_copies([[l,(w+2*d)/2,h-1], [l,(w+2*d)/2-w/3,h-1], [l,(w+2*d)/2+w/3,h-1]]) cyl(l=d*5, d=3, orient=ORIENT_X, align=V_RIGHT);
     }
-    // tooth holder adjustable mounting post
-    translate([-bh_l,w/2,0]) cuboid([bh_l,bh_w,h+d], align=V_UP+V_RIGHT);
-    // color("green") translate([-bh_l/2,w/2-bh_w/2,h+d]) adjustable_tooth_holder_post();
-    color("green") translate([-bh_l/2,w/2-bh_w/2,h+d]) tooth_holder_post();
-    // ear bar posts
-    ear_bar_post();
-    translate([0,w+2*d,0]) mirror([0,1,0]) color("red") ear_bar_post();
+    // // tooth holder adjustable mounting post
+    translate([-post_mount_l/2,w/2+d,0]) !post_mount();
+    // // color("green") translate([-bh_l/2,w/2-bh_w/2,h+d]) adjustable_tooth_holder_post();
+    // color("green") translate([-bh_l/2,w/2-bh_w/2,h+d]) tooth_holder_post();
+    // // ear bar posts
+    // ear_bar_post();
+    // translate([0,w+2*d,0]) mirror([0,1,0]) color("red") ear_bar_post();
 
     // mounting tabs
     m_tab_w = (get_metric_socket_cap_diam(size=6)+eps)/2;
@@ -54,10 +59,17 @@ module chamber() {
     translate([l+2*d+m_tab_w,w+2*d-m_tab_w,0]) mounting_tab();
 
     // tabs to hold suction from above
-    translate([l+2*d-10-5,w+d,h+d]) suction_tab();
-    translate([5,w+d,h+d]) suction_tab();
+    translate([l-10-d,w+d,h+d]) suction_tab();
+    translate([2*d,w+d,h+d]) suction_tab();
 }
 
+module post_mount(){
+    difference() {
+        cuboid([post_mount_l,post_mount_l,2*d], align=V_UP);
+        translate([0,0,d]) cuboid([post_l+nozzle,post_l+nozzle,d+big], fillet=5, edges=EDGE_BK_RT+EDGE_BK_LF+EDGE_FR_RT+EDGE_FR_LF, align=V_UP);
+        // metric_bolt(size=3)
+    }
+}
 module ear_bar_post() {
     //left ear bar post
     difference() {
@@ -115,7 +127,7 @@ module adjustable_tooth_holder_post() {
 module mounting_tab() {
     difference() {
         cuboid([get_metric_socket_cap_diam(size=6)+eps,get_metric_socket_cap_diam(size=6)+eps,2], align=V_UP);
-        translate([0,0,2]) scale([(get_metric_socket_cap_diam(size=6)+2*eps)/get_metric_socket_cap_diam(size=6),(get_metric_socket_cap_diam(size=6)+2*eps)/get_metric_socket_cap_diam(size=6),1]) metric_bolt(size=6,headtype="socket",pitch=0);
+        #translate([0,0,2]) scale([(get_metric_socket_cap_diam(size=6)+2*eps)/get_metric_socket_cap_diam(size=6),(get_metric_socket_cap_diam(size=6)+2*eps)/get_metric_socket_cap_diam(size=6),1]) metric_bolt(size=6,headtype="socket",pitch=0);
     }
 }
 
