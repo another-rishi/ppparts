@@ -15,7 +15,8 @@ r = 25/2; // filter radius
 ro = 20/2;  // o-ring id
 d = nozzle*6;
 e = 1.51; // groove height
-f = 2.90; // groove width
+// f = 2.90; // groove width
+f = 2.;
 
 module inlet() {
     difference() {
@@ -34,7 +35,7 @@ module inlet() {
             // o-ring gland
             translate([0,0,d+big]) difference() {
                 tube(h=e, ir=ro-nozzle*2, or=r, $fn=fn, align=V_UP);
-                tube(h=e+big, ir=ro, or=ro+f, $fn=fn, align=V_UP);
+                #tube(h=e+big, ir=ro, or=ro+f, $fn=fn, align=V_UP);
             }
         }
         // nut cut-outs
@@ -42,8 +43,8 @@ module inlet() {
     }
 }
 
+// TODO: decrease nut cut out scaling slightly for tight fit
 module outlet() {
-
     difference() {
         union() {
             difference() {
