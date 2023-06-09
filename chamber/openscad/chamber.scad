@@ -63,12 +63,24 @@ module chamber() {
     translate([2*d,w+d,h+d]) suction_tab();
 }
 
-module post_mount(){
+module post_mount() {
+    // difference() {  // cross-section
     difference() {
         cuboid([post_mount_l,post_mount_l,2*d], align=V_UP);
-        translate([0,0,d]) cuboid([post_l+nozzle,post_l+nozzle,d+big], fillet=5, edges=EDGE_BK_RT+EDGE_BK_LF+EDGE_FR_RT+EDGE_FR_LF, align=V_UP);
+        // translate([0,0,d]) 
+        cuboid([post_l+nozzle,post_l+nozzle,d+big], align=V_UP);
+        // cuboid([post_l+nozzle,post_l+nozzle,d+big], fillet=5, edges=EDGE_BK_RT+EDGE_BK_LF+EDGE_FR_RT+EDGE_FR_LF, align=V_UP);
         // metric_bolt(size=3)
+        // cuboid([2*post_l/3,post_l+big,d], fillet=post_l/8, edges=EDGES_TOP, align=V_UP);
+        translate([0,0,1]) difference() {
+            cyl(r=5, h=post_l+big, orient=ORIENT_X);
+            cuboid([post_l+big, 2*5, 1], align=V_DOWN);
+        }
     }
+    // translate([-5/2,-(post_l+nozzle)/2,d]) right_triangle([5, 1, 2], orient=ORIENT_X);
+    // yflip() translate([-5/2,-(post_l+nozzle)/2,d]) right_triangle([5, 1, 2], orient=ORIENT_X);
+    // cuboid([post_mount_l+big,post_mount_l+big,2*d+big], align=V_UP+V_RIGHT);
+    // }
 }
 module ear_bar_post() {
     //left ear bar post
