@@ -16,7 +16,7 @@ eps = nozzle;
 
 l = 150;
 w = 75;
-h = 20;
+h = 25;
 
 post_mount_l = 20;
 post_l = 15;
@@ -43,21 +43,21 @@ module metric_nut_cut_out(size, depth, height, eps, fn) {
     // translate([(1.155*get_metric_nut_size(size=size)*(1+eps))/2,0,0]) {
         scale(1+eps) metric_nut(size=size, hole=false);
         cuboid([depth, get_metric_nut_size(size=size)*(1+eps), get_metric_nut_thickness(size=size)*(1+eps)], align=V_RIGHT+V_UP);
-        cyl(r=(size/2)*(1+2*eps), h=height, orient=ORIENT_Z,  $fn=fn);
+        cyl(r=(size/2)*(1+2*eps), h=height, orient=ORIENT_Z, $fn=fn);
     // }
 }
 
 
 module metric_thru_hole(size, height, eps, fn) {
     // translate([(1.155*get_metric_nut_size(size=size)*(1+eps))/2,0,0]) 
-    cyl(r=((size/2)*(1+2*eps)), h=height, orient=ORIENT_Z,  $fn=fn);
+    cyl(r=((size/2)*(1+2*eps)), h=height, orient=ORIENT_Z, $fn=fn);
 }
 
 
 module chamber() {
     difference() {
         cuboid([l+2*d, w+2*d, h+d], align=V_UP+V_RIGHT+V_BACK);
-        translate([d,d,d]) color("red") cuboid([l, w, h+5], fillet=5, align=V_UP+V_RIGHT+V_BACK);
+        translate([d,d,d]) color("red") cuboid([l, w, h+5], fillet=5, align=V_UP+V_RIGHT+V_BACK, $fn=fn);
         // holes for cannula & grounding wire
         place_copies([[l,(w+2*d)/2,h-1], [l,(w+2*d)/2-w/3,h-1], [l,(w+2*d)/2+w/3,h-1]]) cyl(l=d*5, d=3, orient=ORIENT_X, align=V_RIGHT);
     }
@@ -79,19 +79,19 @@ module chamber() {
 module post_mount() {
     difference() {
         cuboid([post_mount_l,post_mount_l,2*d], align=V_UP);
-        translate([0,0,d]) cuboid([post_l+nozzle,post_l+nozzle,d+big], fillet=5, edges=EDGE_BK_RT+EDGE_BK_LF+EDGE_FR_RT+EDGE_FR_LF, align=V_UP);
-        cyl(h=2*big, r=3.6/2);
+        translate([0,0,d]) cuboid([post_l+nozzle,post_l+nozzle,d+big], fillet=5, edges=EDGE_BK_RT+EDGE_BK_LF+EDGE_FR_RT+EDGE_FR_LF, align=V_UP, $fn=fn);
+        cyl(h=2*big, r=3.6/2, $fn=fn);
         }
     }
 
 module ear_bar_post(h_offset) {
     translate([0,0,d]) difference() {
-        color("green") cuboid([post_l+nozzle,post_l+nozzle,h+eb_post_h], fillet=5, edges=EDGE_BK_RT+EDGE_BK_LF+EDGE_FR_RT+EDGE_FR_LF, align=V_UP);
+        color("green") cuboid([post_l-nozzle,post_l-nozzle,h+eb_post_h], fillet=5, edges=EDGE_BK_RT+EDGE_BK_LF+EDGE_FR_RT+EDGE_FR_LF, align=V_UP, $fn=fn);
         eb_scale = (d_bar+2*eps)/d_bar;
         
         translate([0,-l_bar/2,h+eb_post_h-h_offset]) rotate([180,0,90]) scale(eb_scale) ear_bar();
-        translate([0,0,h+eb_post_h-h_offset/2-get_metric_nut_thickness(3)/2]) rotate([0,0,-90]) metric_nut_cut_out(3, (post_l+nozzle)/2+big, 12, 0.1, fn);
-        translate([0,0,get_metric_nut_thickness(3)/2]) rotate([0,0,-90]) metric_nut_cut_out(3, (post_l+nozzle)/2+big, 12, 0.1, fn);
+        translate([0,0,h+eb_post_h-h_offset/2-get_metric_nut_thickness(3)/2]) rotate([0,0,-90]) metric_nut_cut_out(3, (post_l-nozzle)/2+big, 12, 0.1, fn);
+        translate([0,0,get_metric_nut_thickness(3)/2]) rotate([0,0,-90]) metric_nut_cut_out(3, (post_l-nozzle)/2+big, 12, 0.1, fn);
         
     }
 }
@@ -99,7 +99,7 @@ module ear_bar_post(h_offset) {
 module mounting_tab() {
     difference() {
         cuboid([get_metric_socket_cap_diam(size=6)+eps,get_metric_socket_cap_diam(size=6)+eps,2], align=V_UP);
-        translate([0,0,2]) scale([(get_metric_socket_cap_diam(size=6)+2*eps)/get_metric_socket_cap_diam(size=6),(get_metric_socket_cap_diam(size=6)+2*eps)/get_metric_socket_cap_diam(size=6),1]) metric_bolt(size=6,headtype="socket",pitch=0);
+        translate([0,0,2]) scale([(get_metric_socket_cap_diam(size=6)+2*eps)/get_metric_socket_cap_diam(size=6),(get_metric_socket_cap_diam(size=6)+2*eps)/get_metric_socket_cap_diam(size=6),1]) metric_bolt(size=6,headtype="socket",pitch=0, $fn=fn);
     }
 }
 
@@ -109,7 +109,7 @@ module suction_tab() {
     z = 10;
     difference() {
         color("green") cuboid([x, y, z],align=V_UP+V_RIGHT+V_BACK);
-        translate([x/2,y/2,z/2]) cyl(l=y+5, d=6, orient=ORIENT_Y);
+        translate([x/2,y/2,z/2]) cyl(l=y+5, d=6, orient=ORIENT_Y, $fn=fn);
     }
 }
 
@@ -121,6 +121,6 @@ module all_posts() {
     translate([eb_post_l_offset,w+2*d+post_mount_l/2,0]) rotate([0,0,180]) ear_bar_post(h_offset=8);
 }
 
-chamber();
-all_posts();
-// ear_bar_post(h_offset=8);
+// chamber();
+// all_posts();
+ear_bar_post(h_offset=8);
