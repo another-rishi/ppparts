@@ -111,3 +111,4 @@ chamber();
 all_posts();
 // ear_bar_post(h_offset=8);
 // ear_bar_post(h_offset=8+2.3);
+// ear_bar();
