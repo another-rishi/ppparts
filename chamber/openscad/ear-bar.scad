@@ -5,7 +5,7 @@ use <BOSL/metric_screws.scad>
 // parameters
 fn = 360;
 
-l_bar = 45;
+l_bar = 70;
 d_bar = 5;
 l_ear = 5.9;
 r_ear = 1.28;
