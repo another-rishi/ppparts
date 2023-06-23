@@ -67,6 +67,8 @@ module post_mount() {
         }
     }
 
+// TODO: Flip ear bar orientation; ear bar tilts upward when secured
+// tooth holder post should have a larger diameter to accommodate 4mm tooth cut out
 module ear_bar_post(h_offset) {
     translate([0,0,d]) difference() {
         color("green") cuboid([post_l-nozzle,post_l-nozzle,h+eb_post_h], align=V_UP);

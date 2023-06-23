@@ -12,6 +12,7 @@ l_bar = 70 - l_tooth;
 r_ear = 1.28;
 adhesion_offset=0.5;
 
+// TODO: tooth cut out should be 4 mm
 module tooth_holder() {
     difference() {
             translate([0,0,-adhesion_offset]){

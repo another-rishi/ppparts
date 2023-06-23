@@ -24,6 +24,9 @@ use <BOSL/metric_screws.scad>
 // +++ Definable Variables: +++
 // default values creates cap for 1/4-20 nut that is 16mm in diameter and 10mm long. there is a 2mm thick boss at the bottom of the cap
 
+// TODO: thru-hole too small
+// TODO: bolt head cut-out too small
+
 knob_od = 12; // overall diameter of knob
 knob_lg = 12; // overall length of knob
 nut_wd = get_metric_bolt_head_size(3)+0.1; // width of nut flat to flat (add 0.1 to measured)
