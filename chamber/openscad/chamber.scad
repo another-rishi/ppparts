@@ -24,9 +24,6 @@ post_l = 15;
 eb_post_l_offset = 40;
 eb_post_h = 20;
 
-
-
-
 m3_c2c = 6.35;
 
 module metric_nut_cut_out(size, depth, height, eps, fn) {
@@ -101,7 +98,7 @@ module suction_tab() {
 
 module all_posts() {
     // tooth holder post
-    translate([-post_mount_l/2,w/2+d,0]) rotate([0,0,-90]) ear_bar_post(h_offset=8+2.3);
+    translate([-post_mount_l/2,w/2+d,0]) rotate([0,0,-90]) ear_bar_post(h_offset=8+3.3);
     // ear bar posts
     translate([eb_post_l_offset,-post_mount_l/2,0]) ear_bar_post(h_offset=8);
     translate([eb_post_l_offset,w+2*d+post_mount_l/2,0]) rotate([0,0,180]) ear_bar_post(h_offset=8);
@@ -110,5 +107,6 @@ module all_posts() {
 chamber();
 all_posts();
 // ear_bar_post(h_offset=8);
-// ear_bar_post(h_offset=8+2.3);
+// ear_bar_post(h_offset=8+3.3);
+// echo(-8-d_bar/2-adhesion_offset);
 // ear_bar();

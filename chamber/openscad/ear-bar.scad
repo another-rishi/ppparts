@@ -5,9 +5,9 @@ use <BOSL/metric_screws.scad>
 // parameters
 fn = 360;
 
-l_bar = 70;
 d_bar = 5;
 l_ear = 5.9;
+l_bar = 70 - l_ear;
 r_ear = 1.28;
 adhesion_offset=0.5;
 
