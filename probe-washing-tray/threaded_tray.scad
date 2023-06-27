@@ -1,28 +1,37 @@
 include <BOSL/constants.scad>
 use <BOSL/shapes.scad>
-use <BOSL/sliders.scad>
 use <BOSL/threading.scad>
 
 // params
 fn = 64;
-thread_l = 70;
+thread_l = 100;
 thread_d = 20;
-thread_blank = 40;
+big=10;
 
-translate([0,0,thread_d/4]) difference() {
-    metric_trapezoidal_threaded_rod(d=thread_d, l=thread_l, pitch=4, orient=ORIENT_X, align=V_RIGHT+V_BACK, $fn=fn);
-    translate([0,thread_d/2,0]) cuboid([thread_l, thread_d/2, thread_d], align=V_RIGHT);
-    translate([0,0,thread_d/2]) cuboid([thread_l, thread_d, thread_d/2], align=V_RIGHT+V_BACK);
-    translate([0,0,-thread_d/2]) cuboid([thread_l, thread_d, thread_d/2], align=V_RIGHT+V_BACK);
+module rail(l) {
+    rail_l = l;
+    ang = 30;
+    align=V_RIGHT;
+
+    cuboid([rail_l,4*cos(ang)*2+1,4*cos(ang)*2+1], align=align);
+    echo((4*cos(ang)*2+1)*1.1);
+    translate([0,(4*cos(ang)*2+1)/2+1,0]) rotate([-90,0,0]) prismoid(size1=[rail_l, 4*cos(ang)*2+1], size2=[rail_l, 1], h=2, align=align);
+    translate([0,-(4*cos(ang)*2+1)/2-1,0]) rotate([90,0,0]) prismoid(size1=[rail_l, 4*cos(ang)*2+1], size2=[rail_l, 1], h=2, align=align);
 }
 
-translate([thread_l, 0, 0]) difference() {
+module moving() {
     difference() {
-        cuboid([thread_blank, thread_d, thread_d/2], align=V_RIGHT+V_BACK+V_UP);
-        hull() {
-            translate([0, thread_d/2, 0]) cuboid([thread_d/2, thread_d/2, thread_d/2], align=V_RIGHT+V_UP);
-            translate([thread_blank-thread_d/2,thread_d/2,0]) cyl(l=thread_d/2, d=thread_d/2, $fn=fn, align=V_UP);
-        }
+        metric_trapezoidal_threaded_rod(d=thread_d, l=thread_l, pitch=4, orient=ORIENT_X, align=V_RIGHT, $fn=fn);
+        translate([0,0,thread_d/2]) cuboid([thread_l, thread_d, thread_d/2], align=V_RIGHT);
+        translate([0,0,-thread_d/2]) cuboid([thread_l, thread_d, thread_d/2], align=V_RIGHT);
+        cuboid([thread_l, (4*cos(30)*2+1)*1.1, (4*cos(30)*2+1)*1.1+big], align=V_RIGHT);
+        scale(1.1) rail(thread_l);
     }
-    translate([0,0,thread_d/4]) cyl(d=thread_d, l=thread_blank, orient=ORIENT_X, align=V_RIGHT+V_BACK);
+    translate([thread_l,0,-thread_d/4]) {
+        cuboid([20, thread_d*4, thread_d/2], align=V_RIGHT+V_UP);
+        translate([20-12.7,0,thread_d/2]) cuboid([12.7, thread_d*4, 5], align=V_RIGHT+V_UP); 
+    }
+
 }
+
+moving();
