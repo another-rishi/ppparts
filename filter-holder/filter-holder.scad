@@ -39,7 +39,7 @@ module inlet() {
             }
         }
         // nut cut-outs
-        zrot_copies(n=3) translate([r+nozzle, 0, get_metric_nut_thickness(size=6)/2]) metric_thru_hole(6, 20, 0.1, fn);
+        zrot_copies(n=4) translate([r+nozzle, 0, get_metric_nut_thickness(size=6)/2]) metric_thru_hole(6, 20, 0.1, fn);
     }
 }
 
@@ -62,7 +62,7 @@ module outlet() {
         }
         translate([0,0,d+big]) cyl(h=e, r=r-5+nozzle, $fn=fn, align=V_DOWN); 
         // nut cut-outs
-        zrot_copies(n=3) translate([r+nozzle, 0, (get_metric_nut_thickness(size=6)+4-get_metric_nut_thickness(size=6)*(1+0.2))/2]) metric_nut_cut_out(6, 10, 20, 0.1, fn);
+        zrot_copies(n=4) translate([r+nozzle, 0, (get_metric_nut_thickness(size=6)+4-get_metric_nut_thickness(size=6)*(1+0.2))/2]) metric_nut_cut_out(6, 10, 20, 0.1, fn);
     }
 }
 
