@@ -39,8 +39,16 @@ module moving() {
 }
 
 module fixed() {
+    align = V_RIGHT+V_UP;
+    cuboid([150*cos(30), thread_d*4, 3], align=align);
+    // ependorf rack
+    hull() {
+        translate([150*cos(30)-27*cos(30),0,0]) cuboid([27*cos(30), thread_d*4, 3], align=align);
+        translate([150*cos(30)-27*cos(30),0,27*sin(30)+3]) rotate([0,30,0]) cuboid([27, thread_d*4, 14], align=align);
+    }
+    // rail holder
 
 }
 
-moving();
-// fixed();
+translate([-60*cos(30),0,(thread_l+50)*sin(30)+thread_d/4+60*sin(30)]) rotate([0,30,0]) moving();
+fixed();
