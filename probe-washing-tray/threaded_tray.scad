@@ -5,7 +5,7 @@ use <BOSL/threading.scad>
 // params
 fn = 64;
 thread_l = 100;
-thread_d = 20;
+thread_d = 24;
 big=10;
 
 module rail(l) {
@@ -20,6 +20,7 @@ module rail(l) {
 }
 
 module moving() {
+    // threaded rod
     difference() {
         metric_trapezoidal_threaded_rod(d=thread_d, l=thread_l, pitch=4, orient=ORIENT_X, align=V_RIGHT, $fn=fn);
         translate([0,0,thread_d/2]) cuboid([thread_l, thread_d, thread_d/2], align=V_RIGHT);
@@ -27,11 +28,19 @@ module moving() {
         cuboid([thread_l, (4*cos(30)*2+1)*1.1, (4*cos(30)*2+1)*1.1+big], align=V_RIGHT);
         scale(1.1) rail(thread_l);
     }
+    // MEA holder
     translate([thread_l,0,-thread_d/4]) {
-        cuboid([20, thread_d*4, thread_d/2], align=V_RIGHT+V_UP);
-        translate([20-12.7,0,thread_d/2]) cuboid([12.7, thread_d*4, 5], align=V_RIGHT+V_UP); 
+        difference() {
+            cuboid([50, thread_d*4, thread_d/2], align=V_RIGHT+V_UP);
+            translate([5,0,3]) cuboid([45+big, thread_d*4+big, thread_d/2-3+big], align=V_RIGHT+V_UP);
+        }
     }
 
 }
 
+module fixed() {
+
+}
+
 moving();
+// fixed();
