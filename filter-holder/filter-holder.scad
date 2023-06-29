@@ -57,7 +57,7 @@ module outlet() {
             }
             difference() {
                 translate([0,0,d+big]) cyl(h=e, r=r+get_metric_socket_cap_diam(size=6)+3, $fn=fn, align=V_UP);
-                translate([0,0,d+big+e]) cyl(h=e, r=r+nozzle, align=V_DOWN, $fn=fn);
+                #translate([0,0,d+big+e]) cyl(h=e+0.1, r=r+nozzle, align=V_DOWN, $fn=fn);
             }
         }
         translate([0,0,d+big]) cyl(h=e, r=r-5+nozzle, $fn=fn, align=V_DOWN); 
@@ -78,8 +78,8 @@ module filter_support() {
     }
 }
 
-inlet();
+// inlet();
 
-// outlet();
+outlet();
 
 // filter_support();
