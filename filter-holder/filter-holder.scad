@@ -47,17 +47,17 @@ module inlet() {
 module outlet() {
     difference() {
         union() {
-            difference() {
+            #difference() {
                 cyl(h=d+big, r=r+get_metric_socket_cap_diam(size=6)+3, $fn=fn, align=V_UP);
                 cyl(h=d+3*big, r=5/2, $fn=fn);
             }
-            difference() {
+            #difference() {
                 cyl(h=4, r=r+get_metric_socket_cap_diam(size=6)+3, $fn=fn, align=V_DOWN);
                 cyl(h=d+3*big, r=5/2, $fn=fn);
             }
             difference() {
                 translate([0,0,d+big]) cyl(h=e, r=r+get_metric_socket_cap_diam(size=6)+3, $fn=fn, align=V_UP);
-                #translate([0,0,d+big+e]) cyl(h=e+0.1, r=r+nozzle, align=V_DOWN, $fn=fn);
+                translate([0,0,d+big+e]) cyl(h=e+0.1, r=r+nozzle, align=V_DOWN, $fn=fn);
             }
         }
         translate([0,0,d+big]) cyl(h=e, r=r-5+nozzle, $fn=fn, align=V_DOWN); 

@@ -12,32 +12,37 @@ fn = 72;
 big = 5;
 
 d = nozzle*6;
-ir = 25/2;
-or = 45/2; 
 
-e = 1.51; // groove height
-f = 2.90; // groove width
-
-module o_ring_side() {
+module bubble_trap() {
 difference() {
-cyl(h=2*d, r=or, align=V_UP, $fn=fn);
-
-zrot_copies(n=3) translate([ir+d, 0, (get_metric_nut_thickness(size=6)+2-get_metric_nut_thickness(size=6)*(1+0.1))/2]) metric_nut_cut_out(size=3, depth=5, height=10, eps=0.1, fn=fn);
+    cuboid([15+2*d,15+2*d,5*d], align=V_UP);
+    translate([0,0,2.5*d]) cyl(h=10*d, r=5/2, $fn=fn);
 }
 
-translate([0,0,2*d]) difference() {
-    cyl(h=d, r=ir-nozzle, align=V_UP, $fn=fn);
-    translate([0,0,d-e]) tube(h=e+big, or=10+f/2, ir=10, align=V_UP, $fn=fn);
-}
+translate([0,0,5*d+100]) difference() {
+    cuboid([15+2*d,15+2*d,5*d], align=V_UP);
+    translate([0,0,2.5*d]) cyl(h=10*d, r=5/2, $fn=fn);
 }
 
-o_ring_side();
-
-color("purple") translate([0,0,2*d]) difference() {
-    union() {
-        tube(h=d, ir=ir, or=or, align=V_UP, $fn=fn);
-        translate([0,0,d]) tube(h=d, ir=5, or=ir, align=V_UP, $fn=fn);
-        translate([0,0,2*d]) tube(h=100, ir=5, or=5+d, align=V_UP, $fn=fn);
+translate([0,0,5*d]) difference() {
+union() {
+        difference() {
+            cuboid([15+2*d,15+2*d,100], align=V_UP);
+            cuboid([15,15,100+big], align=V_UP);
+            // #translate([0,-(15+2*d)/2,100]) cyl(h=5*d, r=5/2, $fn=fn, orient=ORIENT_Y);
+        }
+        translate([0,-(15+2*d)/2,100-(15+2*d)]) cuboid([15+2*d,5*d,15+2*d], align=V_UP+V_FRONT);
     }
-    zrot_copies(n=3) translate([ir+d, 0, (get_metric_nut_thickness(size=6)+2-get_metric_nut_thickness(size=6)*(1+0.1))/2]) metric_thru_hole(size=3, height=10, eps=0.1, fn=fn);
+    translate([0,-(15+2*d)/2-big,100-(15+2*d)/2]) cyl(h=10*d, r=5/2, $fn=fn, orient=ORIENT_Y);
 }
+}
+
+h=3;
+prismoid(size1=[3, 2], size2=[3/2, 2], h=10, shift=[-3/4, 0], orient=ORIENT_Y);
+!prismoid(size1=[5, 2], size2=[5/4, 2], h=2, shift=[-h/8, 0], orient=ORIENT_X);
+// difference() {  // cross section
+// union() {  // cross section
+// bubble_trap();
+// }  // cross section
+// cuboid([200,200,200], align=V_UP+V_RIGHT);  //cross section
+// }  //cross section
