@@ -26,6 +26,17 @@ hh=4;
 alpha=30;
 beta=70;
 
+module connector_cutout() {
+    union() {
+        hull() {
+            translate([0,body_width/6,0]) rotate([0,0,90]) cantilever_snap(h, z, L, y, hh, alpha, beta, cross=false);
+            yflip() translate([0,body_width/6,0]) rotate([0,0,90]) cantilever_snap(h, z, L, y, hh, alpha, beta, cross=false);
+        }
+        translate([0,body_width/6,0]) rotate([0,0,90]) cantilever_snap(h, z, L, y, hh, alpha, beta);
+        yflip() translate([0,body_width/6,0]) rotate([0,0,90]) cantilever_snap(h, z, L, y, hh, alpha, beta);
+    }
+}
+
 module bubble_trap() {
 difference() {
     cuboid([body_width+2*d,body_width+2*d,5*d], align=V_UP);
@@ -48,16 +59,17 @@ union() {
     translate([0,-(body_width+2*d)/2-big,body_height-(body_width+2*d)/2]) cyl(h=10*d, r=5/2, $fn=fn, orient=ORIENT_Y);
 }
 
+translate([0,0,5*d]) translate([(body_width+2*d)/2,0,0]) difference() {
+difference() {
+    cuboid([5*d,body_width+2*d,body_width+2*d], align=V_UP+V_RIGHT);
+    translate([5*d+L-hh,0,(body_width+2*d)/2]) connector_cutout();
+}
+}
+
+
 translate([0,0,5*d]) translate([(body_width+2*d)/2,0,body_height-(body_width+2*d)]) difference() {
     cuboid([5*d,body_width+2*d,body_width+2*d], align=V_UP+V_RIGHT);
-    translate([0,0,z/2+(body_width+2*d)/2]) union() {
-        hull() {
-            translate([L+8,body_width/6,0]) rotate([0,0,90]) cantilever_snap(h, z, L, y, hh, alpha, beta, cross=false);
-            yflip() translate([L+8,body_width/6,0]) rotate([0,0,90]) cantilever_snap(h, z, L, y, hh, alpha, beta, cross=false);
-        }
-        translate([L+8,body_width/6,0]) rotate([0,0,90]) cantilever_snap(h, z, L, y, hh, alpha, beta);
-        yflip() translate([L+8,body_width/6,0]) rotate([0,0,90]) cantilever_snap(h, z, L, y, hh, alpha, beta);
-    }
+    translate([5*d+L-hh,0,(body_width+2*d)/2]) connector_cutout();
 }
 }
 
