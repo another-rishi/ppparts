@@ -16,7 +16,7 @@ d = nozzle*6;
 wall_thickness=3;
 mounting_plate_height=150;
 mounting_plate_width=200;
-base_width=100;
+base_width=50;
 
 bubble_trap_height = 140;
 filter_height = 80;
@@ -95,9 +95,9 @@ module filter_holder_connector() {
 module mounting_plate(wall_thickness=3) {
     difference() {
         rotate([0,0,90]) union() {
-        cuboid([mounting_plate_width, base_width, wall_thickness], fillet=10, edges=EDGES_Z_ALL, align=V_UP); // base
+        translate([0,-wall_thickness/2,0]) cuboid([mounting_plate_width, base_width, wall_thickness], fillet=10, edges=EDGES_Z_BK, align=V_UP+V_BACK); // base
         translate([0,0,wall_thickness]) cuboid([mounting_plate_width, wall_thickness, mounting_plate_height], fillet=10, edges=EDGES_Y_TOP, align=V_UP); // mounting plate
-        translate([0,-wall_thickness/2,wall_thickness]) interior_fillet(l=200, r=10, orient=ORIENT_XNEG, $fn=fn);
+        // translate([0,-wall_thickness/2,wall_thickness]) interior_fillet(l=200, r=10, orient=ORIENT_XNEG, $fn=fn);
         yflip() translate([0,-wall_thickness/2,wall_thickness]) interior_fillet(l=200, r=10, orient=ORIENT_XNEG, $fn=fn);
         }
         translate([L-hh-wall_thickness/2, 75, bubble_trap_height]) connector_cutout();
@@ -106,10 +106,7 @@ module mounting_plate(wall_thickness=3) {
         translate([L-hh-wall_thickness/2, -75, bubble_trap_height-(body_height-(body_width+2*d))]) connector_cutout();
         translate([L-hh-wall_thickness/2, 0, filter_height]) connector_cutout();
         // slots
-        place_copies([[-25,75,0],[-25,-75,0],[25,0,0]]) translate([10,0,0]) hull() {
-            translate([-20,0,0]) cyl(h=4+big, r=7/2, $fn=fn);
-            cyl(h=4+big, r=7/2, $fn=fn);
-        }
+        translate([-base_width/2,0,0]) cyl(h=4+big, r=7/2, $fn=fn);
     }
 }
 
@@ -133,4 +130,3 @@ if (assembly) {
 else {
 mounting_plate();
 }
-// translate([0,0,-(5*d+(body_width+2*d)/2)])
