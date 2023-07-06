@@ -61,28 +61,15 @@ translate([0,0,5*d]) translate([(body_width+2*d)/2,0,body_height-(body_width+2*d
 }
 }
 
-module cantilever_snap(h, z, L, y, hh, alpha, beta, cross=true) {
-prismoid(size1=[h, z], size2=[h/2, z], h=L, shift=[-h/4, 0], orient=ORIENT_Y);
-if (cross) {
-translate([h/2,L-(hh-y*cos(alpha)-y*cos(beta))/2-y*cos(alpha),0]) rotate([90,0,90]) union() {
-    translate([y*cos(alpha)/2+(hh-y*cos(alpha)-y*cos(beta))/2,0,0]) right_triangle([y*cos(alpha), z, y], center=false);
-    translate([-y*cos(beta)/2-(hh-y*cos(alpha)-y*cos(beta))/2,0,0]) xflip() right_triangle([y*cos(beta), z, y], center=false);
-    cuboid([hh-y*cos(alpha)-y*cos(beta),z,y], align=V_UP);
-}
-}
-}
-
 
 cross_section = false;
 
 if (cross_section) {
-difference() {  // cross-section
-bubble_trap();
-cuboid([500,body_width,500], align=V_BACK);  // cross-section
-}  // cross-section
+    difference() {  // cross-section
+        bubble_trap();
+        cuboid([500,body_width,500], align=V_BACK);  // cross-section
+    }  // cross-section
 }
 else {
-bubble_trap();
+    bubble_trap();
 }
-
-// cantilever_snap(h, z, L, y, hh, alpha, beta);
