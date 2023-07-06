@@ -54,9 +54,9 @@ union() {
             cuboid([body_width+2*d,body_width+2*d,body_height], align=V_UP);
             cyl(r=body_width/2, h=body_height+big, align=V_UP, $fn=fn);
         }
-        translate([0,-(body_width+2*d)/2,body_height-(body_width+2*d)]) cuboid([body_width+2*d,5*d,body_width+2*d], align=V_UP+V_FRONT);
+        translate([0,(body_width+2*d)/2,body_height-(body_width+2*d)]) cuboid([body_width+2*d,5*d,body_width+2*d], align=V_UP+V_BACK);
     }
-    translate([0,-(body_width+2*d)/2-big,body_height-(body_width+2*d)/2]) cyl(h=10*d, r=5/2, $fn=fn, orient=ORIENT_Y);
+    translate([0,(body_width+2*d)/2+big,body_height-(body_width+2*d)/2]) cyl(h=10*d, r=5/2, $fn=fn, orient=ORIENT_Y);
 }
 
 translate([0,0,5*d]) translate([(body_width+2*d)/2,0,0]) difference() {
@@ -79,7 +79,7 @@ cross_section = false;
 if (cross_section) {
     difference() {  // cross-section
         bubble_trap();
-        cuboid([500,body_width,500], align=V_BACK);  // cross-section
+        cuboid([body_width,500,500], align=V_LEFT);  // cross-section
     }  // cross-section
 }
 else {
