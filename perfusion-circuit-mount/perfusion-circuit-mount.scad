@@ -128,5 +128,7 @@ if (assembly) {
 
 }
 else {
-mounting_plate();
+    mounting_plate();
+    translate([base_width, base_width, 0]) bubble_trap_connector();
+    translate([base_width, -base_width, 0]) filter_holder_connector();
 }
