@@ -34,8 +34,8 @@ module inlet() {
             translate([0,0,d]) tube(h=big, ir1=5/2, ir2=r-nozzle*2, or=r-nozzle*2, $fn=fn, align=V_UP);
             // o-ring gland
             translate([0,0,d+big]) union() {
-                tube(h=e, ir=r-nozzle*2, or=ro, $fn=fn, align=V_UP);
-                tube(h=e, ir=ro+f, or=ro+f+nozzle*2, $fn=fn, align=V_UP);
+                tube(h=e, ir=r-nozzle*2, or=ro+nozzle, $fn=fn, align=V_UP);
+                tube(h=e, ir=ro+f, or=ro+f+nozzle, $fn=fn, align=V_UP);
             }
         }
         // nut cut-outs
@@ -60,7 +60,8 @@ module outlet() {
                 translate([0,0,d+big+e]) cyl(h=e+0.1, r=ro+f+nozzle*2, align=V_DOWN, $fn=fn);
             }
         }
-        #translate([0,0,d+big]) cyl(h=e, r=r-2*nozzle, $fn=fn, align=V_DOWN); 
+        translate([0,0,d+big]) cyl(h=e, r=r-2*nozzle, $fn=fn, align=V_DOWN); 
+        translate([0,0,d+big]) cyl(h=layer_h, r=r+nozzle/2, $fn=fn, align=V_DOWN); 
         // nut cut-outs
         zrot_copies(n=3) translate([ro+f+nozzle, 0, (get_metric_nut_thickness(size=6)+4-get_metric_nut_thickness(size=6)*(1+0.2))/2]) metric_nut_cut_out(6, 10, 20, 0.1, fn);
     }
@@ -70,16 +71,30 @@ module outlet() {
 module filter_support() {
     difference() {
     union() {
-        xspread(8*nozzle, n=6) cuboid([2*nozzle, 2*(r-2*nozzle), e], align=V_UP);
-        yspread(8*nozzle, n=6) cuboid([2*(r-2*nozzle), 2*nozzle, e], align=V_UP);
-        tube(h=e, or=r-2*nozzle, wall=2*nozzle, $fn=fn);
+        xspread(8*nozzle, n=6) cuboid([2*nozzle, 2*(r-2*nozzle), e-2*layer_h], align=V_UP);
+        yspread(8*nozzle, n=6) cuboid([2*(r-2*nozzle), 2*nozzle, e-2*layer_h], align=V_UP);
+        tube(h=e-2*layer_h, or=r-3*nozzle, wall=2*nozzle, $fn=fn);
     }
-    tube(h=3, ir=r-2*nozzle, wall=big, $fn=fn);
+    tube(h=3, ir=r-3*nozzle, wall=big, $fn=fn);
     }
 }
 
-translate([2*(ro+f+nozzle*4+get_metric_socket_cap_diam(6))+5, 0,0]) inlet();
+assembly = true;
 
-outlet();
+if (assembly) {
+    difference() {
+        union() {
+            outlet();
+            translate([0,0,d+big-e]) filter_support();
+            translate([0,0,2*(d+big)+e]) zflip() inlet();
+        }
+        cuboid([100,100,100], align=V_BACK);
+    }
+}
+else {
+    // translate([2*(ro+f+nozzle*4+get_metric_socket_cap_diam(6))+5, 0,0]) inlet();
 
-translate([-2*(ro+f+nozzle*4+get_metric_socket_cap_diam(6)), 0,0]) filter_support();
+    // outlet();
+
+    translate([-2*(ro+f+nozzle*4+get_metric_socket_cap_diam(6)), 0,0]) filter_support();
+}
