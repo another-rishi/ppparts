@@ -20,8 +20,6 @@ r = 15/2;
 cap_h = 5;
 x_b = 2*sqrt(r^2-cap_h^2);
 y_b = r + 5;
-echo(x_b);
-echo(y_b);
 
 body_width = 15;
 body_height = 100;
@@ -60,7 +58,7 @@ translate([0,0,5*d]) difference() {  // body
 union() {
         rotate([0,0,90]) difference() {
             linear_extrude(height=body_height) teardrop2d(r=r, ang=30, cap_h=cap_h, $fn=fn);
-            translate([0,0,-big/2]) linear_extrude(height=body_height+big) teardrop2d(r=r-c0, ang=30, cap_h=cap_h-c0, $fn=fn);
+            translate([0,0,-big/2]) linear_extrude(height=body_height+big) teardrop2d(r=r-d, ang=30, cap_h=cap_h-c0, $fn=fn);
         }
         translate([0,0,body_height-5/2*d]) {  // bleed socket
             difference() {
@@ -69,8 +67,16 @@ union() {
             translate([0,0,-5/2*d]) rotate([0,0,90]) 
             linear_extrude(height=5*d) teardrop2d(r=r, ang=30, cap_h=cap_h, $fn=fn);
             }
-            translate([0,0,-5/2*d-big/2]) rotate([0,0,90]) linear_extrude(height=5*d+big) teardrop2d(r=r-c0, ang=30, cap_h=cap_h-c0, $fn=fn);
+            translate([0,0,-5/2*d-big/2]) rotate([0,0,90]) linear_extrude(height=5*d+big) teardrop2d(r=r-d, ang=30, cap_h=cap_h-c0, $fn=fn);
             }
+        }
+        translate([0,0,body_height-(body_width+2*d)])  difference() {  // top connector socket
+        hull() {
+        translate([r,0,0]) cuboid([L/2,2*r,body_width+2*d], align=V_UP+V_RIGHT);
+        rotate([0,0,90]) linear_extrude(height=body_width+2*d) teardrop2d(r=r, ang=30, cap_h=cap_h, $fn=fn);
+        }
+        translate([0,0,-big/2]) rotate([0,0,90]) linear_extrude(height=body_width+2*d+big) teardrop2d(r=r-d, ang=30, cap_h=cap_h-c0, $fn=fn);
+        translate([r+3*L/2-hh-c1,0,(body_width+2*d)/2]) connector_cutout();
         }
     }
     translate([0,(body_width+2*d)/2+big,body_height-5/2*d]) cyl(h=10*d, r=5/2, $fn=fn, orient=ORIENT_Y);
@@ -83,14 +89,7 @@ translate([0,0,5*d]) difference() {  // bottom connector socket
     translate([r,0,0]) cuboid([L/2,2*r,body_width+2*d], align=V_UP+V_RIGHT);
     rotate([0,0,90]) linear_extrude(height=body_width+2*d) teardrop2d(r=r, ang=30, cap_h=cap_h, $fn=fn);
     }
-    translate([r+3*L/2-hh-c1,0,(body_width+2*d)/2]) connector_cutout();
-}
-
-translate([0,0,5*d+body_height-(body_width+2*d)])  difference() {  // top connector socket
-    hull() {
-    translate([r,0,0]) cuboid([L/2,2*r,body_width+2*d], align=V_UP+V_RIGHT);
-    rotate([0,0,90]) linear_extrude(height=body_width+2*d) teardrop2d(r=r, ang=30, cap_h=cap_h, $fn=fn);
-    }
+    translate([0,0,-big/2]) rotate([0,0,90]) linear_extrude(height=body_width+2*d+big) teardrop2d(r=r-d, ang=30, cap_h=cap_h-c0, $fn=fn);
     translate([r+3*L/2-hh-c1,0,(body_width+2*d)/2]) connector_cutout();
 }
 }
