@@ -4,8 +4,11 @@ use <BOSL/threading.scad>
 
 // params
 fn = 64;
-thread_l = 50;
+thread_l = 75;
 thread_d = 24;
+mea_holder_l = 50;
+translation_gap_l = 50;
+total_l = thread_l+mea_holder_l+translation_gap_l+27*cos(30);
 big=10;
 
 module rail(l) {
@@ -31,8 +34,8 @@ module moving() {
     // MEA holder
     translate([thread_l,0,-thread_d/4]) {
         difference() {
-            cuboid([50, thread_d*4, thread_d/2], align=V_RIGHT+V_UP);
-            translate([5,0,3]) cuboid([45+big, thread_d*4+big, thread_d/2-3+big], align=V_RIGHT+V_UP);
+            cuboid([mea_holder_l, thread_d*4, thread_d/2], align=V_RIGHT+V_UP);
+            translate([5,0,3]) cuboid([(mea_holder_l-5)+big, thread_d*4+big, thread_d/2-3+big], align=V_RIGHT+V_UP);
         }
     }
 
@@ -40,15 +43,22 @@ module moving() {
 
 module fixed() {
     align = V_RIGHT+V_UP;
-    cuboid([(thread_l*2+50)*cos(30), thread_d*4, 3], align=align);
+    cuboid([total_l*cos(30), thread_d*4, 3], align=align);
     // ependorf rack
     hull() {
-        translate([(thread_l*2+50)*cos(30),0,0]) cuboid([27*cos(30), thread_d*4, 3], align=align);
-        translate([(thread_l*2+50)*cos(30)-27*cos(30),0,27*sin(30)+3]) rotate([0,30,0]) cuboid([27, thread_d*4, 14], align=align);
+        translate([(thread_l*2+translation_gap_l)*cos(30)-27*cos(30),0,0]) cuboid([27*cos(30), thread_d*4, 3], align=align);
+        translate([(thread_l*2+translation_gap_l)*cos(30)-27*cos(30),0,27*sin(30)]) rotate([0,30,0]) cuboid([27, thread_d*4, 14], align=align);
     }
     // rail holder
 
 }
 
-translate([0,0,(thread_l+50)*sin(30)+thread_d/4+60*sin(30)]) rotate([0,30,0]) moving();
+module insertion_plane() {
+    
+    translate([0,0,total_l*sin(30)]) rotate([0,30,0]) cuboid([total_l,thread_d*4,1], align=V_UP+V_RIGHT);
+}
+
+translate([0,0,(thread_l+mea_holder_l+translation_gap_l+14)*sin(30)]) rotate([0,30,0]) moving();
+
+#insertion_plane();
 fixed();
