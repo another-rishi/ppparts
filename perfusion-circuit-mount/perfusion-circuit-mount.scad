@@ -14,11 +14,11 @@ big = 5;
 d = nozzle*6;
 
 wall_thickness=3;
-mounting_plate_height=135;
+mounting_plate_height=150;
 mounting_plate_width=150;
 base_width=50;
 
-bubble_trap_height = 125;
+bubble_trap_height = 140;
 bubble_trap_y = 60;
 filter_height = 80;
 
@@ -59,6 +59,7 @@ xflip() union() {
 // bubble_trap_connector();
 
 module connector_cutout() {
+    z=4.4;
     union() {
         hull() {
             translate([0,body_width/6,0]) rotate([0,0,90]) cantilever_snap(h, z, L, y, hh, alpha, beta, cross=false);
@@ -115,7 +116,7 @@ module mounting_plate(wall_thickness=3) {
 
 // mounting_plate();
 
-assembly = true;
+assembly = false;
 
 if (assembly) {
     mounting_plate();
